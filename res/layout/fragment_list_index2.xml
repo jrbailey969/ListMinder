@@ -15,22 +15,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="@string/add_checklist" />
+            android:text="@string/new_list_add_button" />
 
-        <EditView
+        <EditText
             android:id="@+id/new_list_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/new_list_add_button"
-            android:text="@string/no_checklists" />
+            android:hint="@string/new_list_name"  />
 
         </RelativeLayout>
     
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:layout_above="@id/new_list_layout" >
+        android:layout_height="fill_parent" 
+        android:layout_above="@id/new_list_layout"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+        	<requestFocus />
     </ListView>
 
     <TextView

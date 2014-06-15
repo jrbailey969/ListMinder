@@ -6,17 +6,17 @@ import android.support.v4.app.Fragment;
 
 public class ChecklistActivity extends SingleFragmentActivity {
 	private long mListId;
-	private ChecklistFragment mFragment;
+	private ChecklistFragment2 mFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		mListId = getIntent().getLongExtra(ChecklistFragment.EXTRA_LIST_ID, 0);
+		mListId = getIntent().getLongExtra(ChecklistFragment2.EXTRA_LIST_ID, 0);
 		super.onCreate(savedInstanceState);		
 	}
 
 	@Override
 	protected Fragment createFragment() {
-		mFragment = ChecklistFragment.newInstance(mListId);
+		mFragment = ChecklistFragment2.newInstance(mListId);
 		return mFragment;
 	}
 	

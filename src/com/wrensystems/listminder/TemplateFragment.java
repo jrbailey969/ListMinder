@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.CursorAdapter;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,14 +29,19 @@ import com.wrensystems.listminder.model.Template;
 import com.wrensystems.listminder.model.TemplateItem;
 import com.wrensystems.listminder.persistence.ListMinderDatabaseHelper.TemplateItemCursor;
 
-public class TemplateFragment extends ListFragment {
+public class TemplateFragment extends Fragment {
 	public static final String EXTRA_TEMPLATE_ID = "listId";
 	private static final String DIALOG_NEW_ITEM = "new_item";
 	private static final int REQUEST_NEW_ITEM = 0;
 	private TemplateItemCursor mTemplateItemCursor;
 	private long mTemplateId;
 	private Button mAddItemButton;
-	
+	private ListView mListView;
+	private CursorAdapter mAdapter;
+	private TextView mEmptyMsg;
+	private EditText mNewTemplateItemText;
+	private Button mAddTemplateItem;
+	private String mNewTemplateItemName;	
 
 	public static TemplateFragment newInstance(long listId) {
 		Bundle bundle = new Bundle();
@@ -57,8 +65,7 @@ public class TemplateFragment extends ListFragment {
 				
 		mTemplateItemCursor = ChecklistSvc.get(getActivity()).getTemplateItems(mTemplateId);
 		
-		TemplateItemCursorAdapter adapter = new TemplateItemCursorAdapter(getActivity(), mTemplateItemCursor);
-		setListAdapter(adapter);
+		mAdapter = new TemplateItemCursorAdapter(getActivity(), mTemplateItemCursor);
 	}
 
 	@Override
@@ -68,11 +75,12 @@ public class TemplateFragment extends ListFragment {
 		
 		View view = inflater.inflate(R.layout.fragment_template, container, false);
 		
-		ListView listView = (ListView)view.findViewById(android.R.id.list);
+		mListView = (ListView)view.findViewById(android.R.id.list);
+		mListView.setAdapter(mAdapter);
 
 		// Context menu options		
- 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-		listView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
+		mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		mListView.setMultiChoiceModeListener(new MultiChoiceModeListener() {
 			
 			@Override
 			public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
@@ -93,10 +101,10 @@ public class TemplateFragment extends ListFragment {
 			public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 				switch (item.getItemId()) {
 					case R.id.menu_item_delete_templateitem:
-						TemplateItemCursorAdapter adapter = (TemplateItemCursorAdapter)getListAdapter();
+						TemplateItemCursorAdapter adapter = (TemplateItemCursorAdapter)mListView.getAdapter();
 						ChecklistSvc listSvc = ChecklistSvc.get(getActivity());
 						for (int i = adapter.getCount() - 1; i >= 0; i--) {
-							if (getListView().isItemChecked(i)) {
+							if (mListView.isItemChecked(i)) {
 								TemplateItem templateItem = ((TemplateItemCursor)adapter.getItem(i)).getItem();
 								listSvc.deleteTemplateItem(templateItem.getId());
 							}
@@ -116,15 +124,47 @@ public class TemplateFragment extends ListFragment {
 			}
 		});
 		
-		mAddItemButton = (Button)view.findViewById(R.id.add_templateitem);
-		mAddItemButton.setOnClickListener(new View.OnClickListener() {
+		mEmptyMsg = (TextView)view.findViewById(android.R.id.empty);
+		if (mAdapter.getCount() > 0)
+			mEmptyMsg.setVisibility(View.INVISIBLE);
+		
+		
+		mNewTemplateItemText = (EditText)view.findViewById(R.id.new_template_item_name);
+		mNewTemplateItemText.addTextChangedListener(new TextWatcher() {
 			
 			@Override
-			public void onClick(View v) {
-				showAddDialog(mTemplateId);
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				mNewTemplateItemName = s.toString();
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
 			}
 		});
 		
+		mAddTemplateItem = (Button)view.findViewById(R.id.new_template_item_add_button);
+		mAddTemplateItem.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				TemplateItem item = new TemplateItem();
+				item.setName(mNewTemplateItemName);
+				ChecklistSvc.get(getActivity()).addTemplateItem(mTemplateId, item);
+				
+				mNewTemplateItemText.setText("");
+				mEmptyMsg.setVisibility(View.INVISIBLE);
+				
+				mTemplateItemCursor.requery();
+				((TemplateItemCursorAdapter)mListView.getAdapter()).notifyDataSetChanged();			
+			}
+		});
+
 		return view;
 	}
 
@@ -183,15 +223,13 @@ public class TemplateFragment extends ListFragment {
 		
 	}
 	
-
-	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode != Activity.RESULT_OK)
 			return;
 		if (requestCode == REQUEST_NEW_ITEM) {
 			mTemplateItemCursor.requery();
-			((TemplateItemCursorAdapter)getListAdapter()).notifyDataSetChanged();			
+			((TemplateItemCursorAdapter)mListView.getAdapter()).notifyDataSetChanged();			
 		}
 	}
 	

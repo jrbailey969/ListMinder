@@ -16,7 +16,15 @@
 	<string name="new_item_name">New Item Name</string>
 	<string name="new_item_add_button">Add</string>
 		
-	
+	<string name="new_list_name">New List Name</string>
+	<string name="new_list_add_button">Add</string>
+			
+	<string name="new_template_name">New Template Name</string>
+	<string name="new_template_add_button">Add</string>
+			
+	<string name="new_template_item_name">New Template Name</string>
+	<string name="new_template_item_add_button">Add</string>
+			
 	<string name="checklist_title" formatted="false">Checklist: %s</string>
 	<string name="no_checklistitems">There are no checklist items.</string>
 	<string name="add_checklistitem">New Item</string>

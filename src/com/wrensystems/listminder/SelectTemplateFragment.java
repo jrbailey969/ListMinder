@@ -1,33 +1,34 @@
 package com.wrensystems.listminder;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.CursorAdapter;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wrensystems.listminder.model.ChecklistSvc;
 import com.wrensystems.listminder.model.Template;
 import com.wrensystems.listminder.persistence.ListMinderDatabaseHelper.TemplateCursor;
 
-public class SelectTemplateFragment extends ListFragment {
+public class SelectTemplateFragment extends Fragment {
 	public static final String EXTRA_LIST_ID = "checklist_id";
 	private TemplateCursor mTemplateCursor;
 	private Button mAddButton;
 	private long mListId;
+	private ListView mListView;
+	private CursorAdapter mAdapter;
 
 	public static SelectTemplateFragment newInstance(long listId) {
 		Bundle bundle = new Bundle();
@@ -50,9 +51,7 @@ public class SelectTemplateFragment extends ListFragment {
 		getActivity().setTitle(R.string.templates_title);
 		mTemplateCursor = ChecklistSvc.get(getActivity()).getTemplates();
 		
-		TemplateCursorAdapter adapter = new TemplateCursorAdapter(getActivity(), mTemplateCursor);
-		setListAdapter(adapter);
-		
+		mAdapter = new TemplateCursorAdapter(getActivity(), mTemplateCursor);
 	}
 
 	@Override
@@ -60,9 +59,23 @@ public class SelectTemplateFragment extends ListFragment {
 			Bundle savedInstanceState) {
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 		View view = inflater.inflate(R.layout.fragment_template_index, container, false);
+
+		mListView = (ListView)view.findViewById(android.R.id.list);
+		mListView.setAdapter(mAdapter);
 		
-		mAddButton = (Button)view.findViewById(R.id.add_template);
-		mAddButton.setVisibility(View.GONE);
+		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(getActivity(), SelectTemplateItemsActivity.class);
+				intent.putExtra(SelectTemplateItemsFragment.EXTRA_TEMPLATE_ID, id);
+				intent.putExtra(SelectTemplateItemsFragment.EXTRA_LIST_ID, mListId);
+				startActivity(intent);
+			}
+		});
+
+		RelativeLayout newTemplateLayout = (RelativeLayout)view.findViewById(R.id.new_template_layout);
+		newTemplateLayout.setVisibility(View.INVISIBLE);
 		
 		return view;
 	}
@@ -73,14 +86,6 @@ public class SelectTemplateFragment extends ListFragment {
 		super.onDestroy();
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent intent = new Intent(getActivity(), SelectTemplateItemsActivity.class);
-		intent.putExtra(SelectTemplateItemsFragment.EXTRA_TEMPLATE_ID, id);
-		intent.putExtra(SelectTemplateItemsFragment.EXTRA_LIST_ID, mListId);
-		startActivity(intent);
-	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

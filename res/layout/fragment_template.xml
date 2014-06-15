@@ -1,37 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+    
+    <requestFocus />
+    <RelativeLayout
+        android:id="@+id/new_template_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <Button
+            android:id="@+id/new_template_item_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/new_template_item_add_button" />
+
+        <EditText
+            android:id="@+id/new_template_item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/new_template_item_add_button"
+            android:hint="@string/new_template_item_name" />
+
+        </RelativeLayout>
     
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="fill_parent"
+        android:layout_above="@id/new_template_item_layout" 
         >
     </ListView>
 
-    <LinearLayout
+    <TextView
         android:id="@id/android:empty"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:paddingTop="16dp"
+        android:layout_alignParentTop="true"
+        android:text="@string/no_templateitems" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:paddingTop="16dp"
-            android:text="@string/no_templateitems" />
-
-        <Button
-            android:id="@+id/add_templateitem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="@string/new_templateitem" />
-
-    </LinearLayout>
-    
-</LinearLayout>
+</RelativeLayout>

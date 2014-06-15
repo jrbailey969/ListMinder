@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+	<requestFocus />    
     <RelativeLayout
         android:id="@+id/new_item_layout"
         android:layout_width="match_parent"
@@ -30,8 +32,7 @@
         android:id="@+id/checklist_items"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/new_item_layout" 
-        >
+        android:layout_above="@id/new_item_layout" >
     </ListView>
 
 

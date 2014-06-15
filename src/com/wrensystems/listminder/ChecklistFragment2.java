@@ -116,6 +116,7 @@ public class ChecklistFragment2 extends Fragment {
 				ChecklistSvc.get(getActivity()).addListItem(mListId, item);
 				
 				mNewItemText.setText("");
+				mEmptyMsg.setVisibility(View.INVISIBLE);
 				
 				mChecklistItemCursor.requery();
 				adapter.notifyDataSetChanged();				

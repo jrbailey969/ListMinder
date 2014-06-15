@@ -6,7 +6,7 @@ public class ListIndexActivity extends SingleFragmentActivity {
 
 	@Override
 	protected Fragment createFragment() {
-		return new ListIndexFragment();
+		return new ListIndexFragment2();
 	}
 
 }
