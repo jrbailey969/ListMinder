@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+        android:id="@+id/menu_item_add_templateitems"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add_templateitems"
+        android:showAsAction="ifRoom|withText"
+        />
+    <item 
+        android:id="@+id/menu_item_select_all_templateitems"
+        android:title="@string/select_all_templateitems"
+        />
+    <item 
+        android:id="@+id/menu_item_deselect_all_templateitems"
+        android:title="@string/deselect_all_templateitems"
+        android:visible="false"
+        />
+    <item 
+        android:id="@+id/menu_item_new_templateitem"
+        android:title="@string/new_templateitem"
+        />
+</menu>

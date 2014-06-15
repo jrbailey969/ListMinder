@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <RelativeLayout
+        android:id="@+id/new_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+        
+	    <Button 
+	        android:id="@+id/new_item_add_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+			android:text="@string/new_item_add_button" 
+			/>
+	    	    
+	    <EditText 
+	        android:id="@+id/new_item_name"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toLeftOf="@id/new_item_add_button"
+			android:hint="@string/new_item_name" 
+			/>
+	</RelativeLayout>
+    
+    <ListView
+        android:id="@+id/checklist_items"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/new_item_layout" 
+        >
+    </ListView>
+
+
+    <TextView
+     android:id="@id/android:empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:paddingTop="16dp"
+        android:layout_alignParentTop="true"
+        android:text="@string/no_checklistitems" />
+        
+</RelativeLayout>

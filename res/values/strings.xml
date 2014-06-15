@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ListMinder</string>
+    <string name="action_settings">Settings</string>
+    <string name="checklists_title">Checklists</string>
+	<string name="no_checklists">There are no checklists.</string>
+	<string name="add_checklist">New Checklist</string>
+	<string name="dialog_new_checklist_name">List Name</string>
+	<string name="dialog_new_checklist_save_button">Add</string>
+	<string name="dialog_new_checklistitem_name">Item Name</string>
+	<string name="dialog_new_checklistitem_save_button">Add</string>
+	<string name="new_checklist">New List</string>
+	<string name="delete_checklist">Delete List</string>
+	
+	<string name="new_item_name">New Item Name</string>
+	<string name="new_item_add_button">Add</string>
+		
+	
+	<string name="checklist_title" formatted="false">Checklist: %s</string>
+	<string name="no_checklistitems">There are no checklist items.</string>
+	<string name="add_checklistitem">New Item</string>
+	<string name="new_checklistitem">New Item</string>
+	<string name="delete_checklistitem">Delete Item</string>
+	<string name="remove_completed_checklistitem">Remove Completed</string>			
+	<string name="add_from_template">Add From Template</string>			
+	
+	<string name="manage_templates">Templates</string>
+	<string name="templates_title">Templates</string>
+	<string name="new_template">New Template</string>
+	<string name="delete_template">Delete Template</string>
+	<string name="no_templates">There are no templates.</string>
+	<string name="dialog_new_template_name">Template Name</string>
+	<string name="dialog_new_template_save_button">Add</string>
+
+	<string name="template_title" formatted="false">Template: %s</string>
+	<string name="new_templateitem">New Item</string>
+	<string name="delete_templateitem">Delete Item</string>
+	<string name="no_templateitems">There are no templates items.</string>
+	<string name="dialog_new_templateitem_name">Item Name</string>
+	<string name="dialog_new_templateitem_save_button">Add</string>
+	
+	<string name="add_templateitems">Add</string>
+	<string name="done_adding_templateitems">Done</string>
+	<string name="select_all_templateitems">Select All</string>
+	<string name="deselect_all_templateitems">Deselect All</string>
+</resources>
